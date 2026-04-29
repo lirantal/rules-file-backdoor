@@ -85,3 +85,13 @@ test('GET /download/:filename should return 404 for a non-existent file', async 
     .get('/download/non-existent-file.txt')
     .expect(404);
 });
+
+test('GET / should contain a file upload form', async () => {
+  await request(app)
+    .get('/')
+    .expect(200)
+    .expect('Content-Type', /html/)
+    .expect((res) => {
+      assert(res.text.includes('<form action="/upload" method="post" enctype="multipart/form-data">'));
+    });
+});
